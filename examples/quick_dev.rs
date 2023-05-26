@@ -1,3 +1,5 @@
+use json_event_parser::parse_tree;
+
 fn main() {
-    println!("quick_dev");
+    println!("{:?}", parse_tree("{}"));
 }
