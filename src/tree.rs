@@ -3,11 +3,16 @@ use std::fmt;
 #[derive(Debug)]
 #[rustfmt::skip]
 pub enum TreeKind {
-    ErrorTree,
+    ErrorTree, Start,
 }
 
 pub struct Tree {
     pub kind: TreeKind,
+    pub children: Vec<Child>,
+}
+
+pub enum Child {
+    Tree(Tree),
 }
 
 use crate::format_to;

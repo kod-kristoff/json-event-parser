@@ -9,8 +9,6 @@ use parser::Parser;
 
 mod rules;
 
-use std::fmt;
-
 pub fn parse_tree(text: &str) -> Tree {
     let tokens = Lexer::new(text);
     let mut p = Parser::new(tokens);
