@@ -4,6 +4,8 @@ use std::fmt;
 #[rustfmt::skip]
 pub enum TreeKind {
     ErrorTree, Start,
+
+    Object,
 }
 
 pub struct Tree {
@@ -13,13 +15,23 @@ pub struct Tree {
 
 pub enum Child {
     Tree(Tree),
+    Token(Token),
 }
 
-use crate::format_to;
+use crate::{format_to, Token};
 impl Tree {
     fn print(&self, buf: &mut String, level: usize) -> Result<(), fmt::Error> {
         let indent = " ".repeat(level);
         format_to!(buf, "{indent}{:?}\n", self.kind);
+        for child in &self.children {
+            match child {
+                Child::Token(token) => {
+                    format_to!(buf, "{indent}   '{}'\n", token.text);
+                }
+                Child::Tree(tree) => tree.print(buf, level + 1)?,
+            }
+        }
+        assert!(buf.ends_with("\n"));
         Ok(())
     }
 }
